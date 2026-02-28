@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "bars": "^1.9.6",
+    "express": "^5.2.1",
+    "express-handlebars": "^8.0.1",
+    "handle": "^1.0.0",
+    "init": "^0.1.2",
+    "nodemon": "^3.1.11"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
+  },
+  "scripts": {
+    "test":"jest"
+  }
+}
