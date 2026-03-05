@@ -14,12 +14,13 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/form',(req,res)=>{
-    res.render('forms')
+    res.render('forms',{csrf:'token007'})
 })
 
 app.get('/form-submit',(req,res)=>{
     console.log(req.query.name)
     console.log(req.query.email)
+    console.log(req.query._csrf)
     res.redirect(303,'/thanks')
 })
 
