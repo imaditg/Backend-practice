@@ -1,0 +1,35 @@
+<form class="form-outer" id="signupform">
+    <input type="hidden" name="_csrf" value="{{csrf}}">
+    <div class="items">
+        <h3>SIGN UP</h3>
+    </div>
+    <div class="items">
+        <label for="fieldName">Name: </label>
+        <input type="text" name="name" class="na">
+    </div>
+    <div class="items">
+        <label for="email">Email: </label>
+        <input type="email" name="email" class="na">
+    </div>
+    <div class="items">
+        <button type="submit" class="sub">Submit</button>
+    </div>
+</form>
+
+<script>
+    document.getElementById('signupform').addEventListener('submit', (event) => {
+        event.preventDefault()
+        const form = event.target
+        const body = JSON.stringify({
+            _csrf: form.elements._csrf.value,
+            name: form.elements.name.value,
+            email: form.elements.email.value
+        })
+        const headers = { 'Content-Type': 'application/json' }
+        fetch('/api/signup-post', { method: 'post', body, headers }).then(res => {
+            if (res.status < 200 || res.status >= 300)
+                throw new Error(`request failed with status ${res.status}`)
+            return res.json()
+        }).then(data => console.log(data)).catch(err => { return console.log(err) })
+    })
+</script>
