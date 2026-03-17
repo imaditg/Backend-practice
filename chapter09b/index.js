@@ -14,6 +14,11 @@ app.engine('handlebars',engine({defaultLayout:'main'}))
 app.set('view engine','handlebars')
 
 app.get('/about',(req,res)=>{
+    const verify = req.session.test
+    if(verify == 'hello'){
+        req.session.verify = 'pass'
+    }
+    console.log(req.session);
     res.render('about')
 })
 
