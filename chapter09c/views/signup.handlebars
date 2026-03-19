@@ -1,0 +1,45 @@
+<form class="form-outer" id="signupform">
+    <input type="hidden" name="_csrf" value="{{csrf}}">
+    <div class="items">
+        <h3>SIGN UP</h3>
+    </div>
+    <div class="items">
+        <label for="fieldName">Name: </label>
+        <input type="text" name="name" class="na">
+    </div>
+    <div class="items">
+        <label for="email">Email: </label>
+        <input type="email" name="email" class="na">
+    </div>
+    <div class="items">
+        <button type="submit" class="sub">Submit</button>
+    </div>
+</form>
+
+<script>
+    document.getElementById('signupform').addEventListener('submit',(evnt)=>{
+        evnt.preventDefault()
+        const form = evnt.target
+        const body = JSON.stringify({
+            name:form.elements.name.value,
+            email:form.elements.email.value,
+            csrf:form.elements._csrf.value
+        })
+        const headers = {"Content-Type" : "Application/json"}
+        fetch('/api/submit',{method:'post',body,headers})
+        .then((res)=>{
+            if(res.status < 200 || res.status >= 300){
+                throw Error(res.status)
+            }
+           return res.json()
+        })
+        .then((res =>{
+            if(res.result){
+                window.location.href = '/thanks'
+            }
+        }))
+        .catch((e) =>{
+            console.log(`got an error status: ${e}`)
+        })
+    })
+</script>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            max-width: 1200px;
+            height: 700px;
+            margin: 0px auto;
+            position: relative;
+        }
+
+        .items {
+            text-align: center;
+        }
+
+        .form-outer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: black solid 1px;
+            padding-bottom: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .na {
+            margin-bottom: 20px;
+            outline: none;
+
+        }
+
+        .sub {
+            margin: 0px auto;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    {{#if flash}}
+    <h2>CSRF : {{flash.csrf}}</h2>
+    <h2>name : {{flash.name}}</h2>
+    <h2>email : {{flash.email}}</h2>
+    <h2>Thank you</h2>
+    {{/if}}
+    {{{body}}}
+</body>
+
+</html>
