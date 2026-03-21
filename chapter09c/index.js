@@ -4,7 +4,7 @@ const {engine} = require('express-handlebars')
 const cookieParser = require('cookie-parser')
 const expressSession = require('express-session')
 const credentials = require('./.credentials.development')
-const flasMiddleware = require('./middleware/flash')
+const flasMiddleware = require('./lib/middleware/flash')
 const port = process.env.PORT || 3000
 
 app.use(express.json())
