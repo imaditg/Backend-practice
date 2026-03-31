@@ -1,0 +1,59 @@
+<form class="form-outer" id="signupform">
+    <input type="hidden" name="_csrf" value="{{csrf}}">
+    <div class="items">
+        <h3>SEND MAIL</h3>
+    </div>
+    <div class="items">
+        <label for="_to">TO: </label>
+        <input type="email" name="_to" class="na">
+    </div>
+    <div class="items">
+        <label for="_from">FROM: </label>
+        <input type="email" name="_from" class="na">
+    </div>
+    <div class="items">
+        <label for="subject">SUBJECT: </label>
+        <input type="text" name="subject" class="na">
+    </div>
+    <div class="items">
+        <label for="_text">TEXT: </label>
+        <input type="text" name="_text" class="na">
+    </div>
+    <div class="items">
+        <button type="submit" class="sub">Submit</button>
+    </div>
+</form>
+<script>
+    document.getElementById('signupform').addEventListener('submit', (event) => {
+        event.preventDefault()
+        const form = event.target
+        const body = JSON.stringify( {
+            csrf: form.elements._csrf.value,
+            to:form.elements._to.value,
+            from:form.elements._from.value,
+            sub_:form.elements.subject.value,
+            text:form.elements._text.value
+        })
+        {{!-- console.log({body}) --}}
+        const headers = {"Content-Type":"application/json"}
+        fetch("/api/mailSent",{method:"Post",headers,body})
+        .then((res)=>{
+            if(res.status < 200 || res.status >= 300){
+                throw new Error(`Error : ${res.status}`)
+            }
+            return res.json()
+        })
+        .then((res)=>{
+            if(res.result){
+                window.location.href = '/thank'
+            }
+            else{
+                throw new Error(res.result)
+            }
+        })
+        .catch((e)=>{
+            console.log(e)
+            window.location.href = "500"
+        })
+    })
+</script>
