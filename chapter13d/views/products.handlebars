@@ -1,0 +1,22 @@
+<table>
+    <tr>
+        <th>name:</th>
+        <th>category:</th>
+        <th>amount:</th>
+        <th>available</th>
+    </tr>
+    {{#if products}}
+    {{#each products}}
+    <tr>
+        <td>{{name}}</td>
+        <td>{{category}}</td>
+        <td>{{amount}}</td>
+        <td>{{available}}</td>
+    </tr>
+    {{/each}}
+    {{else}}
+    <tr>
+        <th>No Products Found</th>
+    </tr>
+    {{/if}}
+</table>
