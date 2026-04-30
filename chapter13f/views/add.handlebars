@@ -1,0 +1,47 @@
+<form id="addData">
+    <table>
+        <tr>
+            <th>name:</th>
+            <th>category:</th>
+            <th>amount:</th>
+            <th>available</th>
+            <th class="empty"></th>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" required></td>
+            <td><input type="text" name="category" required></td>
+            <td><input type="number" name="price" required></td>
+            <td class="available"><input type="text" placeholder="True" readonly disabled name="available" value="True">
+            </td>
+            <td><button class="subbtn" type="submit">Submit</button></td>
+        </tr>
+    </table>
+</form>
+<script>
+    document.getElementById('addData').addEventListener('submit', (event) => {
+        event.preventDefault()
+        const headers = { 'Content-Type': 'application/json' }
+        const form = event.target
+        const body = JSON.stringify({
+            name: form.elements.name.value,
+            category: form.elements.category.value,
+            price: form.elements.price.value,
+            available: form.elements.available.value,
+        })
+        fetch('/api/data', { method: 'POST', body, headers })
+            .then((res) => {
+                return res.json()
+            })
+            .then((data) => {
+                if(data.success){
+                    window.location.replace('/product/add/addingData')
+                }
+                else{
+                    throw new Error('can not redirect form add/addinData')
+                }
+            })
+            .catch((err) => {
+                console.log(`fetch error ${err}`)
+            })
+    })
+</script>

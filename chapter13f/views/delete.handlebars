@@ -1,0 +1,54 @@
+<form>
+    {{#if product}}
+    <table>
+        <tr>
+            <th>name:</th>
+            <th>category:</th>
+            <th>amount:</th>
+            <th>available</th>
+            <th class="empty"></th>
+        </tr>
+        <tr obj-id="{{product.id}}">
+            <td><input type="text" name="name" disabled readonly placeholder="{{product.name}}" class="darkletter"></td>
+            <td><input type="text" name="category" disabled readonly placeholder="{{product.category}}"
+                    class="darkletter"></td>
+            <td><input type="number" name="price" disabled readonly placeholder="{{product.price}}" class="darkletter">
+            </td>
+            <td class="available"><input type="text" placeholder="{{product.available}}" disabled readonly
+                    name="available" class="darkletter">
+            </td>
+            <td><button class="subbtn delbn" type="submit">Delete</button></td>
+        </tr>
+    </table>
+    {{else}}
+    <h2>No product Found</h2>
+    {{/if}}
+</form>
+<script>
+    const row = document.querySelector('table').rows[1]
+    const objId = row.getAttribute('obj-id')
+    document.querySelector('form').addEventListener('submit', (event) => {
+        event.preventDefault()
+        const form = event.target;
+        const body = JSON.stringify({
+            id: objId
+        })
+        const headers = {'Content-Type':'application/json'}
+        fetch('/api/remove',{method:'POST',headers,body})
+        .then((res)=>{
+            return res.json()
+        })
+        .then((data)=>{
+            if(data.success){
+                console.log('Id is fetch for deletion')
+                window.location.replace('/product/deleting')
+            }
+            else{
+                throw new Error('Unable to fetch id for deletion')
+            }
+        })
+        .catch((error)=>{
+            console.log(`Fetch Id deletion error ${error}`)
+        })
+    })
+</script>

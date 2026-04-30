@@ -1,0 +1,71 @@
+<table>
+    <tr>
+        <th>name:</th>
+        <th>category:</th>
+        <th>amount:</th>
+        <th>available</th>
+        <th><a href="/product/add" class="addbtn">Add Data</a></th>
+    </tr>
+    {{#if products}}
+    {{#each products}}
+    <tr obj-id="{{id}}">
+        <td>{{name}}</td>
+        <td>{{category}}</td>
+        <td>{{price}}</td>
+        <td class="available">{{available}}</td>
+        <td>
+            <button type="button" value="editbtn" class="editbtn">Edit</button>
+            <button type="button" value="deletebtn" class="deletebtn">Delete</button>
+        </td>
+    </tr>
+    {{/each}}
+    {{else}}
+    <tr>
+        <th>No Products Found</th>
+    </tr>
+    {{/if}}
+</table>
+<script>
+    document.querySelector('table').addEventListener('click', (event) => {
+        const row = event.target.closest('tr')
+        const data = row.getAttribute('obj-id')
+        const btnValue = event.target.value
+        const headers = { 'Content-Type': 'application/json' }
+        const body = JSON.stringify({ id: data })
+        if (btnValue === 'editbtn') {
+            fetch('/api/edit', { method: 'POST', headers, body })
+                .then((res) => {
+                    return res.json()
+                })
+                .then((data) => {
+                    if (data.success) {
+                        window.location.href = '/product/edit'
+                    }
+                    else {
+                        throw new Error('Edit fetch error')
+                    }
+                })
+                .catch((error) => {
+                    console.log(`Error in edit fetch : ${error}`)
+                })
+        }
+        else if (btnValue === 'deletebtn') {
+            fetch('/api/delete', { method: 'POST', body, headers })
+                .then((res) => {
+                    return res.json()
+                })
+                .then((data) => {
+                    if (data.success) {
+                        window.location.href = 'product/delete'
+                    }
+                    else {
+                        throw new Error('Delete fetch error')
+                    }
+                })
+                .catch((error) => {
+                    console.log(`Error in delete fetch : ${error}`)
+                })
+
+        }
+    })
+</script>

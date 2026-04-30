@@ -1,0 +1,56 @@
+<form >
+    {{#if product}}
+    <table>
+        <tr >
+            <th>name:</th>
+            <th>category:</th>
+            <th>amount:</th>
+            <th>available</th>
+            <th class="empty"></th>
+        </tr>
+        <tr obj-id="{{product.id}}">
+            <td><input type="text" name="name" required placeholder="{{product.name}}"></td>
+            <td><input type="text" name="category" required placeholder="{{product.category}}"></td>
+            <td><input type="number" name="price" required placeholder="{{product.price}}"></td>
+            <td class="available"><input type="text" placeholder="{{product.available}}" required name="available" >
+            </td>
+            <td><button class="subbtn" type="submit">Submit</button></td>
+        </tr>
+    </table>
+    {{else}}
+    <h2>No product Found</h2>
+    {{/if}}
+</form>
+<script>
+    const row2 = document.querySelector('table').rows[1]
+    const ids = row2.getAttribute('obj-id')
+    document.getElementsByTagName('form')[0].addEventListener('submit',(event)=>{
+        event.preventDefault()
+        const headers = {'Content-Type':'application/json'}
+        const form = event.target
+        const body = JSON.stringify({
+            name: form.elements.name.value,
+            category: form.elements.category.value,
+            price: form.elements.price.value,
+            available: form.elements.available.value,
+            _id:ids
+        })
+        fetch('/api/modify',{headers,body,method:"POST"})
+        .then((res)=>{
+            return res.json()
+        })
+        .then((data)=>{
+            if(data.success){
+                console.log('fetch update api success')
+                window.location.replace( '/product/edit/update')
+            }
+            else{
+                throw new Error('modified success error')
+            }
+        })
+        .catch((error)=>{
+            console.log(`Modified Error: ${error}`)
+        })
+        
+    })
+</script>
