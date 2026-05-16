@@ -1,0 +1,19 @@
+<form id="addData">
+    <table>
+        <tr>
+            <th>name:</th>
+            <th>category:</th>
+            <th>amount:</th>
+            <th>available</th>
+            <th class="empty"></th>
+        </tr>
+        <tr obj-id ="{{product.id}}">
+            <td><input type="text" name="name" required placeholder="{{product.name}}"></td>
+            <td><input type="text" name="category" required placeholder="{{product.category}}"></td>
+            <td><input type="number" name="price" required placeholder="{{product.price}}"></td>
+            <td class="available"><input type="text" placeholder="True" readonly disabled name="available" value="True">
+            </td>
+            <td><button class="subbtn" type="submit">Submit</button></td>
+        </tr>
+    </table>
+</form>

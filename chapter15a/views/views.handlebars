@@ -1,0 +1,55 @@
+
+    <table>
+        <tr>
+            <th>Name: </th>
+            <th>Category: </th>
+            <th>Price: </th>
+            <th>Available: </th>
+            <th><a href="/views/add" class="addbtn">Add Data</a></th>
+        </tr>
+        {{#each products}}
+        <tr obj-id = "{{id}}">
+            <td>{{name}}</td>
+            <td>{{category}}</td>
+            <td>{{price}}</td>
+            <td>{{available}}</td>
+            <td>
+                <button type="button" value="editbtn" class="editbtn">Edit</button>
+                <button type="button" value="deletebtn" class="deletebtn">Delete</button>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+
+
+<script>
+    document.querySelector('table').addEventListener('click',(event)=>{
+        event.preventDefault()
+        const clickBtn = event.target.value
+        const rows = event.target.closest('tr')
+        const id = rows.getAttribute('obj-id')
+       
+        if(clickBtn === 'editbtn'){
+            const headers = {"Content-Type":"application/json"}
+            const body = JSON.stringify({
+                _id: id
+            })
+            fetch('/api/editviews',{method:'Post',headers,body})
+            .then((res) =>{
+               return res.json()
+            })
+            .then((res)=>{
+                if(res.success){
+                    window.location.replace('/api/edit-loading')
+                }
+                else{
+                    throw Error('Not received success in edit')
+                }
+            })
+            .catch((error)=>{
+                console.log(`Error in Edit Api : ${error}`)
+                window.location.replace('/400')
+            })
+        }
+    })
+</script>
